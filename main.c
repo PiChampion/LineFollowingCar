@@ -46,23 +46,12 @@ void main(void){
 //------------------------------------------------------------------------------
   
   while(ALWAYS) { 
-//    Backlight_Update();
-//    ADC_Process();
-//    if(startup_complete) {
       Update_Display_Process();
       Display_Process();
       Serial_Process();
       IOT_Process();
       Command_Process();
       Movement_Process();
-//      Menu_Process();
-//    }
-//    else {
-//      Startup_Process();
-//      IOT_Process();
-//      Update_Display_Process();
-//      Display_Process();
-//    }
   }
 //------------------------------------------------------------------------------
 }
