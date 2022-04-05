@@ -45,19 +45,12 @@ __interrupt void eUSCI_A0_ISR(void){
     case RXIFG_CASE:                             // Vector 2 - RXIFG
       temp = usb_rx_ring_wr_UCA0++;
       USB_Char_Rx_UCA0[temp] = UCA0RXBUF;    // RX --> USB_Char_Rx character
-      //UCA0_messaged_received = YES;
       if(usb_rx_ring_wr_UCA0 >= (SMALL_RING_SIZE)) {
         usb_rx_ring_wr_UCA0 = BEGINNING;     // Circular buffer back to beginning
       }
       break;
     case TXIFG_CASE:                             // Vector 4 - TXIFG
       UCA0_index++;
-//      if(UCA0_transmit_message[UCA0_index - 1] == NULL) {
-//        UCA0TXBUF = LINE_FEED;
-//        UCA0IE &= ~UCTXIE;                // Disable TX interrupt
-//        UCA0_index = RESET_STATE;
-//      }
-//      else 
       if(UCA0_transmit_message[UCA0_index] == NULL) {
         UCA0TXBUF = CARRIAGE_RETURN;
         UCA0IE &= ~UCTXIE;                // Disable TX interrupt
@@ -88,20 +81,12 @@ __interrupt void eUSCI_A1_ISR(void){
       }
       temp = usb_rx_ring_wr_UCA1++;
       USB_Char_Rx_UCA1[temp] = UCA1RXBUF;    // RX --> USB_Char_Rx character
-      //UCA1_messaged_received = YES;
       if(usb_rx_ring_wr_UCA1 >= (sizeof(USB_Char_Rx_UCA1))) {
         usb_rx_ring_wr_UCA1 = BEGINNING;     // Circular buffer back to beginning
       }
       break;
     case TXIFG_CASE:                             // Vector 4 - TXIFG
       UCA1_index++;
-      //if(OK_to_send) {
-//        if(UCA1_transmit_message[UCA1_index - 1] == NULL) {
-//          UCA1TXBUF = LINE_FEED;
-//          UCA1IE &= ~UCTXIE;                // Disable TX interrupt
-//          UCA1_index = RESET_STATE;
-//        }
-//        else 
         if(UCA1_transmit_message[UCA1_index] == NULL) {
           UCA1TXBUF = CARRIAGE_RETURN;
           UCA1IE &= ~UCTXIE;                // Disable TX interrupt
